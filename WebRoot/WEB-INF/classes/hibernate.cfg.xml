@@ -1,0 +1,38 @@
+<!-- ~ Hibernate, Relational Persistence for Idiomatic Java ~ ~ License: 
+	GNU Lesser General Public License (LGPL), version 2.1 or later. ~ See the 
+	lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>. -->
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!--required config -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql:///em</property>
+		<property name="hibernate.connection.username">admin</property>
+		<property name="hibernate.connection.password">123</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!--optional config -->
+		<!-- current session config using current thread -->
+		<property name="hibernate.current_session_context_class">thread</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<!--use c3p0 connection pool -->
+		<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<property name="hibernate.c3p0.min_size">1</property>
+		<property name="hibernate.c3p0.max_size">10</property>
+		<property name="hibernate.c3p0.timeout">120</property>
+		<!-- 自动提交事务 -->
+		<!-- <property name="hibernate.connection.autocommit">true</property> -->
+		<!-- 设置事务隔离级别 -->
+		<property name="hibernate.connection.isolation">4</property>
+		<!--orm relative path -->
+		<mapping resource="com/em/domain/User.hbm.xml"/>
+		
+	
+		
+
+	</session-factory>
+</hibernate-configuration>

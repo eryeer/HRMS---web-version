@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<!-- 输出目的地 -->
+	<Appenders>
+		<!-- 控制台 -->
+		<Console name="console">
+			<!-- 输出格式 -->
+			<PatternLayout pattern="%m%n" />
+		</Console>
+
+		<!-- 文件 -->
+		<File name="file" fileName="d:/estore.log">
+			<!-- 输出格式 -->
+			<PatternLayout pattern="%d %p %c [%t] %m%n" />
+		</File>
+		
+		<!-- 滚动式文件 -->
+		<RollingFile name="rollingFile" fileName="d:/logs/estore/estore.log"
+			filePattern="d:/logs/estore/%d{yyyy-MM}/%d{yyyy-MM-dd}-%i.log.gz">
+			<!-- 输出格式 -->
+			<PatternLayout pattern="%d %p %c [%t] %m%n" />
+			<!-- 滚动策略 -->
+			<Policies>
+				<!-- 2小时一个文件 -->
+				<TimeBasedTriggeringPolicy interval="2" />
+				<!-- 超过10MB，创建新文件 -->
+				<SizeBasedTriggeringPolicy size="10MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+
+	<!-- 日志记录器 -->
+	<Loggers>
+		<!-- level：设置日志输出级别 -->
+		<Root level="info">
+			<AppenderRef ref="console" /> 
+			<!-- <AppenderRef ref="file" /> -->
+			<!-- <AppenderRef ref="rollingFile" /> -->
+		</Root>
+	</Loggers>
+</Configuration>

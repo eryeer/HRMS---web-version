@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+	<!-- 文件总大小10M -->
+	<constant name="struts.multipart.maxSize" value="10485760"></constant>
+	<constant name="struts.custom.i18n.resources" value="messageResource"></constant>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<package name="default" namespace="/" extends="json-default">
+	<interceptors>
+			<interceptor name="loginInterceptor" class="com.em.interceptor.UserInterceptor"></interceptor>
+			<interceptor-stack name="myDefaultStack">
+				<interceptor-ref name="loginInterceptor">
+					<param name="excludeMethods">login</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack">
+					<param name="fileUpload.maximumSize">5242880</param>
+					<param name="fileUpload.allowedTypes">
+						application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+					</param>
+					<param name="fileUpload.allowedExtensions">.doc,.docx</param>
+				</interceptor-ref>
+				<!-- 引入令牌拦截器 -->
+				<interceptor-ref name="token">
+					<param name="includeMethods">login</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefaultStack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="invalid.token">
+				/invalid_token.jsp
+			</result>
+			<result name="error">
+				/error.jsp
+			</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		<action name="user_*" class="com.em.action.UserAction" method="{1}">
+			<result name="loginSuccess" type="redirect">/login/home.jsp</result>
+			<result name="input">/login/login.jsp</result>
+			<result name="success" type="redirectAction">user_list</result>
+			<result name="saveInput">/user/add.jsp</result>
+			<result name="checkSuccess" type="json">
+				<param name="root">result</param>
+			</result>
+			<result name="listSuccess">/user/list.jsp</result>
+			<result name="viewSuccess">/user/view.jsp</result>
+			<result name="downloadSuccess" type="stream">
+				<param name="inputName">inputStream</param>
+				<param name="contentType">${contentType}</param>
+				<param name="contentDisposition">attachment;filename=${downloadFilename}</param>
+			</result>
+			<result name="editSuccess">/user/edit.jsp</result>
+		</action>
+	</package>
+</struts>
+
+
